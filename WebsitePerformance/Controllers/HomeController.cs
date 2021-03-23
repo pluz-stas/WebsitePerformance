@@ -5,9 +5,9 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
-using WebsitePerformance.Models;
+using WebsitePerformance.Mvc.Models;
 
-namespace WebsitePerformance.Controllers
+namespace WebsitePerformance.Mvc.Controllers
 {
     public class HomeController : Controller
     {
@@ -23,8 +23,10 @@ namespace WebsitePerformance.Controllers
             return View();
         }
 
-        public IActionResult Privacy()
+        [HttpPost]
+        public IActionResult Index(CreateWebsiteViewModel websiteViewModel)
         {
+            ModelState.AddModelError("Domain", "Sitemap not found!");
             return View();
         }
 

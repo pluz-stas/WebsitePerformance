@@ -1,6 +1,6 @@
 using System;
 
-namespace WebsitePerformance.Models
+namespace WebsitePerformance.Mvc.Models
 {
     public class ErrorViewModel
     {

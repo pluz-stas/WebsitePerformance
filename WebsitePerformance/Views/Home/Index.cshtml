@@ -1,8 +1,16 @@
-﻿@{
+﻿@model WebsitePerformance.Mvc.Models.CreateWebsiteViewModel;
+@{
     ViewData["Title"] = "Home Page";
 }
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://docs.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+
+<form asp-action="Index" class="input-block">
+    <div class="editor-label">
+        @Html.LabelFor(model => model.Domain)
+    </div>
+    <div class="editor-field">
+        @Html.EditorFor(model => model.Domain)
+        @Html.ValidationMessageFor(model => model.Domain)
+    </div>
+    <button type="submit" class="btn">Search</button>
+</form>
