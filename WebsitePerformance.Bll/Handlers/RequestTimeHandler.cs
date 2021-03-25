@@ -5,17 +5,16 @@ using System.Threading;
 using System.Threading.Tasks;
 using WebsitePerformance.Bll.Resources;
 
-namespace WebsitePerformance.Bll.Services
+namespace WebsitePerformance.Bll.Handlers
 {
-    public class MonitoringHandler : DelegatingHandler
+    public class RequestTimeHandler : DelegatingHandler
     {
         protected override async Task<HttpResponseMessage> SendAsync(
             HttpRequestMessage request, CancellationToken cancellationToken)
         {
             var watcher = new Stopwatch();
-
-            request.Properties.Add(
-                new KeyValuePair<string, object>(AppConstants.Monitoring, watcher));
+            HttpRequestOptionsKey<Stopwatch> key = new HttpRequestOptionsKey<Stopwatch>(AppConstants.StopWatch);
+            request.Options.Set(key, watcher);
 
             watcher.Start();
             var response = await base.SendAsync(request, cancellationToken);

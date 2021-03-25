@@ -1,8 +1,8 @@
 ﻿namespace WebsitePerformance.Bll.Resources
 {
-    public class AppConstants
+    public static class AppConstants
     {
         public const string StopWatch = "stopwatch";
-        public const string Monitoring = "monitoring";
+        public const string Measuring = "measuring";
     }
 }

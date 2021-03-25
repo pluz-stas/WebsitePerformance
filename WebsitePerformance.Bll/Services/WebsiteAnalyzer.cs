@@ -30,7 +30,7 @@ namespace WebsitePerformance.Bll.Services
 
                 await urls.ParallelForEachAsync(async url =>
                 {
-                    Webpage webpage = new Webpage{Path = url.ToString()};
+                    Webpage webpage = new Webpage{Path = url.ToString(), Website = website};
                     await _webpageAnalyzer.AnalyzeAsync(webpage);
                     webpages.Add(webpage);
                 }, maxDegreeOfParallelism: 10);

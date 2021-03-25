@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Linq;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore.ValueGeneration.Internal;
 using WebsitePerformance.Bll.Interfaces;
 using WebsitePerformance.Dal.Entities;
 
@@ -11,9 +10,9 @@ namespace WebsitePerformance.Bll.Services
     {
         private const int NumberOfRequests = 3;
 
-        private readonly IHttpClientWatcher _httpClientWatcher;
+        private readonly IRequestTimeService _httpClientWatcher;
 
-        public WebpageAnalyzer(IHttpClientWatcher httpClientWatcher)
+        public WebpageAnalyzer(IRequestTimeService httpClientWatcher)
         {
             _httpClientWatcher = httpClientWatcher;
         }
@@ -26,7 +25,7 @@ namespace WebsitePerformance.Bll.Services
             
             for (int i = 0; i < NumberOfRequests; i++)
             {
-                requestTime = await _httpClientWatcher.GetRequestTimeAsync(webpage.Path);
+                requestTime = await _httpClientWatcher.GetResponseTimeAsync(webpage.Path);
                 responseTimeArray[i] = requestTime.TotalMilliseconds;
             }
 

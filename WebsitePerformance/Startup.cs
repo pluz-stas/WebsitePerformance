@@ -4,6 +4,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using WebsitePerformance.Bll.Handlers;
 using WebsitePerformance.Bll.Interfaces;
 using WebsitePerformance.Bll.Resources;
 using WebsitePerformance.Bll.Services;
@@ -33,13 +34,12 @@ namespace WebsitePerformance.Mvc
             services.AddScoped<IWebpageRepository, WebpageRepository>();
 
             services.AddScoped<ISitemapService, SitemapService>();
-
-            services.AddScoped<MonitoringHandler>();
+            services.AddScoped<RequestTimeHandler>();
             services.AddHttpClient(
-                    AppConstants.Monitoring, 
+                    AppConstants.Measuring, 
                     options => options.DefaultRequestHeaders.ConnectionClose = true)
-                .AddHttpMessageHandler<MonitoringHandler>();
-            services.AddScoped<IHttpClientWatcher, HttpClientWatcher>();
+                .AddHttpMessageHandler<RequestTimeHandler>();
+            services.AddScoped<IRequestTimeService, RequestTimeService>();
             services.AddScoped<IWebpageAnalyzer, WebpageAnalyzer>();
             services.AddScoped<IWebsiteAnalyzer, WebsiteAnalyzer>();
             services.AddControllersWithViews();

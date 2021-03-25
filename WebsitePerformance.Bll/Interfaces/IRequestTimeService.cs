@@ -3,8 +3,8 @@ using System.Threading.Tasks;
 
 namespace WebsitePerformance.Bll.Interfaces
 {
-    public interface IHttpClientWatcher
+    public interface IRequestTimeService
     {
-        Task<TimeSpan> GetRequestTimeAsync(string uri);
+        Task<TimeSpan> GetResponseTimeAsync(string uri);
     }
 }
