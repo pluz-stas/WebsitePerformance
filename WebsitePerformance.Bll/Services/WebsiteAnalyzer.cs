@@ -1,11 +1,9 @@
-﻿using System;
-using System.Collections.Concurrent;
-using System.Collections.Generic;
+﻿using System.Collections.Concurrent;
 using System.Linq;
 using System.Threading.Tasks;
 using Dasync.Collections;
 using WebsitePerformance.Bll.Interfaces;
-using WebsitePerformance.Dal.Entities;
+using WebsitePerformance.Bll.Models;
 
 namespace WebsitePerformance.Bll.Services
 {
@@ -20,17 +18,17 @@ namespace WebsitePerformance.Bll.Services
             _sitemapService = sitemapService;
         }
 
-        public async Task AnalyzeAsync(Website website)
+        public async Task AnalyzeAsync(WebsiteModel website)
         {
             var urls = await _sitemapService.GetUrlsAsync(website.Domain);
 
             if (urls.Count > 0)
             {
-                var webpages = new ConcurrentBag<Webpage>();
+                var webpages = new ConcurrentBag<WebpageModel>();
 
                 await urls.ParallelForEachAsync(async url =>
                 {
-                    Webpage webpage = new Webpage{Path = url.ToString(), Website = website};
+                    WebpageModel webpage = new WebpageModel{Path = url.ToString(), Website = website};
                     await _webpageAnalyzer.AnalyzeAsync(webpage);
                     webpages.Add(webpage);
                 }, maxDegreeOfParallelism: 10);

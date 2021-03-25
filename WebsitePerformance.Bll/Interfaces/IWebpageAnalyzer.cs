@@ -1,11 +1,11 @@
 ﻿using System;
 using System.Threading.Tasks;
-using WebsitePerformance.Dal.Entities;
+using WebsitePerformance.Bll.Models;
 
 namespace WebsitePerformance.Bll.Interfaces
 {
     public interface IWebpageAnalyzer
     {
-        Task AnalyzeAsync(Webpage webpage);
+        Task AnalyzeAsync(WebpageModel webpage);
     }
 }

@@ -6,6 +6,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using WebsitePerformance.Bll.Handlers;
 using WebsitePerformance.Bll.Interfaces;
+using WebsitePerformance.Bll.Mapper;
 using WebsitePerformance.Bll.Resources;
 using WebsitePerformance.Bll.Services;
 using WebsitePerformance.Dal;
@@ -29,9 +30,13 @@ namespace WebsitePerformance.Mvc
             var connectionString = Configuration.GetConnectionString("DefaultConnection");
 
             services.AddDbContext<WebsitePerformanceDbContext>(o => o.UseSqlServer(connectionString));
-
+            services.AddAutoMapper(config => config.AddProfile(new MappingProfile()), typeof(Startup));
+            
             services.AddScoped<IWebsiteRepository, WebsiteRepository>();
             services.AddScoped<IWebpageRepository, WebpageRepository>();
+            
+            services.AddScoped<IWebsiteService, WebsiteService>();
+            services.AddScoped<IWebpageService, WebpageService>();
 
             services.AddScoped<ISitemapService, SitemapService>();
             services.AddScoped<RequestTimeHandler>();

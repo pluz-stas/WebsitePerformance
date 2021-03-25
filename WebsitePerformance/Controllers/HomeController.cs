@@ -6,7 +6,7 @@ using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
 using WebsitePerformance.Bll.Interfaces;
-using WebsitePerformance.Dal.Entities;
+using WebsitePerformance.Bll.Models;
 using WebsitePerformance.Mvc.Models;
 
 namespace WebsitePerformance.Mvc.Controllers
@@ -15,11 +15,14 @@ namespace WebsitePerformance.Mvc.Controllers
     {
         private readonly ILogger<HomeController> _logger;
         private readonly IWebsiteAnalyzer _websiteAnalyzer;
+        private readonly IWebsiteService _websiteService;
 
-        public HomeController(ILogger<HomeController> logger, IWebsiteAnalyzer websiteAnalyzer)
+        public HomeController(ILogger<HomeController> logger, IWebsiteAnalyzer websiteAnalyzer,
+            IWebsiteService websiteService)
         {
             _logger = logger;
             _websiteAnalyzer = websiteAnalyzer;
+            _websiteService = websiteService;
         }
 
         public IActionResult Index()
@@ -32,18 +35,23 @@ namespace WebsitePerformance.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                Website website = new Website {Domain = websiteViewModel.Domain};
+                WebsiteModel website = new WebsiteModel {Domain = websiteViewModel.Domain};
                 await _websiteAnalyzer.AnalyzeAsync(website);
-                if(website.Webpages == null)
+                if (website.Webpages == null)
                     ModelState.AddModelError("Domain", "Sitemap not found!");
+                else
+                {
+                    _websiteService.CreateAsync(website);
+                }
             }
+
             return View();
         }
 
         [ResponseCache(Duration = 0, Location = ResponseCacheLocation.None, NoStore = true)]
         public IActionResult Error()
         {
-            return View(new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier });
+            return View(new ErrorViewModel {RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier});
         }
     }
 }

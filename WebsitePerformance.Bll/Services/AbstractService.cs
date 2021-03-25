@@ -12,8 +12,8 @@ namespace WebsitePerformance.Bll.Services
         where TModel : class, new()
         where QEntity : class, IDbEntity, new() 
     {
-        protected private readonly IMapper _mapper;
-        protected private readonly IRepository<QEntity> _repository;
+        private protected readonly IMapper _mapper;
+        private protected readonly IRepository<QEntity> _repository;
 
         protected AbstractService(IRepository<QEntity> repository, IMapper mapper)
         {

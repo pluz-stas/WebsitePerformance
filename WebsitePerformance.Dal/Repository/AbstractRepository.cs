@@ -26,9 +26,15 @@ namespace WebsitePerformance.Dal.Repository
             throw new NotImplementedException();
         }
 
-        public Task<int> CreateAsync(TEntity model)
+        public async Task<int> CreateAsync(TEntity model)
         {
-            throw new NotImplementedException();
+            if (model == null)
+                throw new ArgumentNullException();
+
+            await dbContext.Set<TEntity>().AddAsync(model);
+            await dbContext.SaveChangesAsync();
+
+            return model.Id;
         }
 
         public Task<TEntity> GetByIdAsync(int id)

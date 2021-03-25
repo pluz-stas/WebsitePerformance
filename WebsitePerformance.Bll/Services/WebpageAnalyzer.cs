@@ -2,7 +2,7 @@
 using System.Linq;
 using System.Threading.Tasks;
 using WebsitePerformance.Bll.Interfaces;
-using WebsitePerformance.Dal.Entities;
+using WebsitePerformance.Bll.Models;
 
 namespace WebsitePerformance.Bll.Services
 {
@@ -17,7 +17,7 @@ namespace WebsitePerformance.Bll.Services
             _httpClientWatcher = httpClientWatcher;
         }
         
-        public async Task AnalyzeAsync(Webpage webpage)
+        public async Task AnalyzeAsync(WebpageModel webpage)
         {
             var responseTimeArray = new double[NumberOfRequests];
             
