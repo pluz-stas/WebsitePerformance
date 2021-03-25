@@ -32,6 +32,8 @@ namespace WebsitePerformance.Mvc
             services.AddScoped<IWebsiteRepository, WebsiteRepository>();
             services.AddScoped<IWebpageRepository, WebpageRepository>();
 
+            services.AddScoped<ISitemapService, SitemapService>();
+
             services.AddScoped<MonitoringHandler>();
             services.AddHttpClient(
                     AppConstants.Monitoring, 

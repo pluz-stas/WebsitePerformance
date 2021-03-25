@@ -28,9 +28,15 @@ namespace WebsitePerformance.Mvc.Controllers
         }
 
         [HttpPost]
-        public IActionResult Index(CreateWebsiteViewModel websiteViewModel)
+        public async Task<IActionResult> Index(CreateWebsiteViewModel websiteViewModel)
         {
-            ModelState.AddModelError("Domain", "Sitemap not found!");
+            if (ModelState.IsValid)
+            {
+                Website website = new Website {Domain = websiteViewModel.Domain};
+                await _websiteAnalyzer.AnalyzeAsync(website);
+                if(website.Webpages == null)
+                    ModelState.AddModelError("Domain", "Sitemap not found!");
+            }
             return View();
         }
 

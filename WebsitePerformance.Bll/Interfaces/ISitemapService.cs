@@ -1,12 +1,12 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Threading.Tasks;
-using WebsitePerformance.Dal.Entities;
 
 namespace WebsitePerformance.Bll.Interfaces
 {
-    public interface IWebsiteAnalyzer
+    public interface ISitemapService
     {
-        Task AnalyzeAsync(Website website);
+        Task<List<Uri>> GetUrlsAsync(string domain);
     }
 }

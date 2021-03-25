@@ -9,7 +9,9 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AsyncEnumerator" Version="4.0.2" />
     <PackageReference Include="AutoMapper" Version="10.1.1" />
+    <PackageReference Include="TurnerSoftware.SitemapTools" Version="0.6.0" />
   </ItemGroup>
 
   <ItemGroup>
