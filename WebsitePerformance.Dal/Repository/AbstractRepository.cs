@@ -2,6 +2,7 @@
 using WebsitePerformance.Dal.Interfaces;
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using System.Linq.Expressions;
 using System.Threading.Tasks;
 
@@ -16,10 +17,12 @@ namespace WebsitePerformance.Dal.Repository
             dbContext = context;
         }
 
-        public Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync(int skip, int top) => 
+            await dbContext.Set<TEntity>()
+                .Skip(skip)
+                .Take(top)
+                .AsNoTracking()
+                .ToListAsync();
 
         public Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate)
         {

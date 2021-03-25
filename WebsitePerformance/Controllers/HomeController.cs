@@ -35,13 +35,13 @@ namespace WebsitePerformance.Mvc.Controllers
         {
             if (ModelState.IsValid)
             {
-                WebsiteModel website = new WebsiteModel {Domain = websiteViewModel.Domain};
+                WebsiteModel website = new WebsiteModel {Domain = websiteViewModel.Domain, AnalysisDate = DateTime.UtcNow};
                 await _websiteAnalyzer.AnalyzeAsync(website);
                 if (website.Webpages == null)
                     ModelState.AddModelError("Domain", "Sitemap not found!");
                 else
                 {
-                    _websiteService.CreateAsync(website);
+                    await _websiteService.CreateAsync(website);
                 }
             }
 
