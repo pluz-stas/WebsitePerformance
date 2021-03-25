@@ -1,15 +1,17 @@
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
-using Microsoft.AspNetCore.HttpsPolicy;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
+using WebsitePerformance.Bll.Interfaces;
+using WebsitePerformance.Bll.Resources;
+using WebsitePerformance.Bll.Services;
+using WebsitePerformance.Dal;
+using WebsitePerformance.Dal.Interfaces;
+using WebsitePerformance.Dal.Repository;
 
-namespace WebsitePerformance
+namespace WebsitePerformance.Mvc
 {
     public class Startup
     {
@@ -18,11 +20,26 @@ namespace WebsitePerformance
             Configuration = configuration;
         }
 
-        public IConfiguration Configuration { get; }
+        private IConfiguration Configuration { get; }
 
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+            var connectionString = Configuration.GetConnectionString("DefaultConnection");
+
+            services.AddDbContext<WebsitePerformanceDbContext>(o => o.UseSqlServer(connectionString));
+
+            services.AddScoped<IWebsiteRepository, WebsiteRepository>();
+            services.AddScoped<IWebpageRepository, WebpageRepository>();
+
+            services.AddScoped<MonitoringHandler>();
+            services.AddHttpClient(
+                    AppConstants.Monitoring, 
+                    options => options.DefaultRequestHeaders.ConnectionClose = true)
+                .AddHttpMessageHandler<MonitoringHandler>();
+            services.AddScoped<IHttpClientWatcher, HttpClientWatcher>();
+            services.AddScoped<IWebpageAnalyzer, WebpageAnalyzer>();
+            services.AddScoped<IWebsiteAnalyzer, WebsiteAnalyzer>();
             services.AddControllersWithViews();
         }
 

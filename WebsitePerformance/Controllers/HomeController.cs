@@ -5,6 +5,8 @@ using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
 using System.Threading.Tasks;
+using WebsitePerformance.Bll.Interfaces;
+using WebsitePerformance.Dal.Entities;
 using WebsitePerformance.Mvc.Models;
 
 namespace WebsitePerformance.Mvc.Controllers
@@ -12,10 +14,12 @@ namespace WebsitePerformance.Mvc.Controllers
     public class HomeController : Controller
     {
         private readonly ILogger<HomeController> _logger;
+        private readonly IWebsiteAnalyzer _websiteAnalyzer;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(ILogger<HomeController> logger, IWebsiteAnalyzer websiteAnalyzer)
         {
             _logger = logger;
+            _websiteAnalyzer = websiteAnalyzer;
         }
 
         public IActionResult Index()
