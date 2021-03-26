@@ -1,0 +1,91 @@
+﻿@model WebsitePerformance.Mvc.Models.WebsiteDetailsViewModel
+
+@{
+    ViewData["Title"] = "Details";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Details</h1>
+
+<div>
+    <h4>@Html.DisplayFor(model => model.Domain)</h4>
+    
+    <hr/>
+    <div style="width: 200px; height: 200px">
+        <canvas id="diagram" style="width: 200px; height: 200px"></canvas>
+    </div>
+</div>
+<table class="table">
+    <thead>
+    <tr>
+        <th>#</th>
+        <th>Url</th>
+        <th>
+            @Html.DisplayNameFor(model => model.Webpages.First().MinResponseTime)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Webpages.First().MaxResponseTime)
+        </th>
+        <th></th>
+    </tr>
+    </thead>
+    <tbody>
+    @{ int i = 1;}
+    @foreach (var item in Model.Webpages)
+    {
+        <tr>
+            <td>@i</td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Path)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MinResponseTime) ms
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.MaxResponseTime) ms
+            </td>
+        </tr>
+        i++;
+    }
+    </tbody>
+</table>
+<div>
+    <a asp-action="Index">Back to List</a>
+</div>
+<script>
+window.onload = function(){
+    
+let colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+let donutOptions = {
+  cutoutPercentage: 85, 
+  legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
+};
+
+let diagramData = {
+    labels: ['Slow requests'],
+    datasets: [
+      {
+        backgroundColor: colors.slice(0,3),
+        borderWidth: 0,
+        data: [
+            @Model.SlowPagesRatio.SlowPagesCount,
+            @(Model.SlowPagesRatio.FastPagesCount)
+        ]
+      }
+    ]
+};
+
+let diagram = document.getElementById("diagram");
+if (diagram) {
+  new Chart(diagram, {
+      type: 'pie',
+      data: diagramData,
+      options: donutOptions
+  });
+}
+}
+</script>
+
+@section Scripts {
+    <script src="~/lib/chartjs/Chart.min.js"></script>
+}

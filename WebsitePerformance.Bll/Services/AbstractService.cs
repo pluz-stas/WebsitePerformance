@@ -24,6 +24,9 @@ namespace WebsitePerformance.Bll.Services
         public virtual async Task<IEnumerable<TModel>> GetAllAsync(int skip, int top) =>
             (await _repository.GetAllAsync(skip, top))
             .Select(x => _mapper.Map<QEntity, TModel>(x));
+        public virtual async Task<IEnumerable<TModel>> GetAllAsync() =>
+            (await _repository.GetAllAsync())
+            .Select(x => _mapper.Map<QEntity, TModel>(x));
 
         public virtual async Task<TModel> GetByIdAsync(int id) =>
             _mapper.Map<QEntity, TModel>(await _repository.GetByIdAsync(id));

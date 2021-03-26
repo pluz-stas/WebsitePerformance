@@ -26,7 +26,7 @@ namespace WebsitePerformance.Bll.Services
             for (int i = 0; i < NumberOfRequests; i++)
             {
                 requestTime = await _httpClientWatcher.GetResponseTimeAsync(webpage.Path);
-                responseTimeArray[i] = requestTime.TotalMilliseconds;
+                responseTimeArray[i] = requestTime.Milliseconds;
             }
 
             webpage.MinResponseTime = responseTimeArray.Min();

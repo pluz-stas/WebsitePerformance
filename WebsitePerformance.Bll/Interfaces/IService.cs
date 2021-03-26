@@ -9,6 +9,7 @@ namespace WebsitePerformance.Bll.Interfaces
         where QEntity : class, IDbEntity, new()
     {
         Task<IEnumerable<TModel>> GetAllAsync(int skip, int top);
+        Task<IEnumerable<TModel>> GetAllAsync();
 
         Task<TModel> GetByIdAsync(int id);
 

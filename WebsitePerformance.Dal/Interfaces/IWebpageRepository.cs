@@ -6,6 +6,6 @@ namespace WebsitePerformance.Dal.Interfaces
 {
     public interface IWebpageRepository : IRepository<Webpage>
     {
-        Task<IEnumerable<Webpage>> GetByWebsiteAsync(int WebsiteId, int skip, int top);
+        Task<IEnumerable<Webpage>> GetByWebsiteAsync(int websiteId, int skip, int top);
     }
 }

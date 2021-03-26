@@ -8,6 +8,7 @@ namespace WebsitePerformance.Dal.Interfaces
     public interface IRepository<T> where T : class, IDbEntity
     {
         Task<IEnumerable<T>> GetAllAsync(int skip, int top);
+        Task<IEnumerable<T>> GetAllAsync();
         
         Task<IEnumerable<T>> FilterAsync(Expression<Func<T, bool>> predicate);
 

@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.EntityFrameworkCore;
@@ -18,6 +19,14 @@ namespace WebsitePerformance.Dal.Repository
                 .Skip(skip)
                 .Take(top)
                 .ToListAsync();
-
+        public override async Task<IEnumerable<Website>> GetAllAsync() => 
+            await dbContext.Websites.AsNoTracking().OrderByDescending(x => x.AnalysisDate)
+                .ToListAsync();
+        public override async Task<Website> GetByIdAsync(int id) =>
+            await dbContext.Websites
+                .AsNoTracking()
+                .Include(x => x.Webpages.OrderByDescending(mes => mes.MaxResponseTime))
+                .FirstOrDefaultAsync(x => x.Id == id) ??
+            throw new ArgumentNullException(nameof(Website));
     }
 }

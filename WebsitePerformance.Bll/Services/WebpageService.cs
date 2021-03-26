@@ -12,15 +12,17 @@ namespace WebsitePerformance.Bll.Services
 {
     public class WebpageService : AbstractService<WebpageModel, Webpage>, IWebpageService
     {
-        private readonly IWebsiteRepository _WebsiteRepository;
-        public WebpageService(IWebsiteRepository WebsiteRepository, IWebpageRepository WebpageRepository, IMapper mapper) : base(WebpageRepository, mapper)
+        private readonly IWebsiteRepository _websiteRepository;
+        private readonly IWebpageRepository _webpageRepository;
+        public WebpageService(IWebsiteRepository websiteRepository, IWebpageRepository webpageRepository, IMapper mapper) : base(webpageRepository, mapper)
         {
-            _WebsiteRepository = WebsiteRepository;
+            _websiteRepository = websiteRepository;
+            _webpageRepository = webpageRepository;
         }
 
         public override async Task<int> CreateAsync(WebpageModel model)
         {
-            if (!await _WebsiteRepository.IsExistsAsync(model.Website.Id))
+            if (!await _websiteRepository.IsExistsAsync(model.Website.Id))
             {
                 throw new Exception("Website is not exist");
             }
@@ -30,10 +32,8 @@ namespace WebsitePerformance.Bll.Services
 
             return await _repository.CreateAsync(WebpageEntity);
         }
-        
 
-        public async Task<IEnumerable<WebpageModel>> GetByWebsiteAsync(int WebsiteId, int skip, int top)  =>
-            (await ((IWebpageRepository)_repository).GetByWebsiteAsync(WebsiteId, skip, top)).Select(x => _mapper.Map<Webpage, WebpageModel>(x));
-
+        public async Task<IEnumerable<WebpageModel>> GetByWebsiteAsync(int websiteId, int skip, int top)  =>
+            (await ((IWebpageRepository)_repository).GetByWebsiteAsync(websiteId, skip, top)).Select(x => _mapper.Map<Webpage, WebpageModel>(x));
     }
 }

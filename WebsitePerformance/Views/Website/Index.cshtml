@@ -23,7 +23,8 @@
         </tr>
     </thead>
     <tbody>
-@foreach (var item in Model) {
+    @foreach (var item in Model)
+    {
         <tr>
             <td>
                 @Html.DisplayFor(modelItem => item.Domain)
@@ -32,9 +33,9 @@
                 @Html.DisplayFor(modelItem => item.AnalysisDate)
             </td>
             <td>
-                @Html.ActionLink("Details", "", new { /* id=item.PrimaryKey */ }) |
+                @Html.ActionLink("Details", "Details", new {websiteId=item.Id})
             </td>
         </tr>
-}
+    }
     </tbody>
 </table>

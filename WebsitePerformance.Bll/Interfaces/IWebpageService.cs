@@ -7,6 +7,6 @@ namespace WebsitePerformance.Bll.Interfaces
 {
     public interface IWebpageService : IService<WebpageModel, Webpage>
     {
-        Task<IEnumerable<WebpageModel>> GetByWebsiteAsync(int WebsiteId, int skip, int top);
+        Task<IEnumerable<WebpageModel>> GetByWebsiteAsync(int websiteId, int skip, int top);
     }
 }

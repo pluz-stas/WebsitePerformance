@@ -23,6 +23,11 @@ namespace WebsitePerformance.Dal.Repository
                 .Take(top)
                 .AsNoTracking()
                 .ToListAsync();
+        
+        public virtual async Task<IEnumerable<TEntity>> GetAllAsync() => 
+            await dbContext.Set<TEntity>()
+                .AsNoTracking()
+                .ToListAsync();
 
         public Task<IEnumerable<TEntity>> FilterAsync(Expression<Func<TEntity, bool>> predicate)
         {
@@ -40,10 +45,10 @@ namespace WebsitePerformance.Dal.Repository
             return model.Id;
         }
 
-        public Task<TEntity> GetByIdAsync(int id)
-        {
-            throw new NotImplementedException();
-        }
+        public virtual async Task<TEntity> GetByIdAsync(int id) => 
+            await dbContext.Set<TEntity>().FindAsync(id) ??
+            throw new ArgumentNullException(nameof(TEntity));
+
 
         public Task<bool> IsExistsAsync(int id)
         {
