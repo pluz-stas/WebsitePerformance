@@ -3,16 +3,17 @@
     ViewData["Title"] = "Home Page";
 }
 
-
-<form asp-action="Index" class="input-block">
-    <div class="d-flex flex-row">
-    <div class="editor-label">
-        https://
-    </div>
-    <div class="editor-field">
-        @Html.EditorFor(model => model.Domain)
-        @Html.ValidationMessageFor(model => model.Domain)
-    </div>
-    <button type="submit" class="btn btn-outline-primary">Analyse</button>
-    </div>
-</form>
+<div class="content">
+    <form asp-action="Index" class="input-block">
+        <div class="d-flex flex-row">
+            <div class="editor-label">
+                https://
+            </div>
+            <div class="editor-field">
+                @Html.EditorFor(model => model.Domain)
+                @Html.ValidationMessageFor(model => model.Domain)
+            </div>
+            <button type="submit" class="btn btn-outline-primary">Analyse</button>
+        </div>
+    </form>
+</div>

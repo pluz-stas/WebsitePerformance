@@ -33,18 +33,19 @@ namespace WebsitePerformance.Mvc.Controllers
         [HttpPost]
         public async Task<IActionResult> Index(CreateWebsiteViewModel websiteViewModel)
         {
+
             if (ModelState.IsValid)
             {
                 WebsiteModel website = new WebsiteModel {Domain = websiteViewModel.Domain, AnalysisDate = DateTime.UtcNow};
                 await _websiteAnalyzer.AnalyzeAsync(website);
                 if (website.Webpages == null)
-                    ModelState.AddModelError("Domain", "Sitemap not found!");
-                else
                 {
-                    await _websiteService.CreateAsync(website);
+                    ModelState.AddModelError("Domain", "Sitemap not found!");
+                    return View();
                 }
+                website.Id = await _websiteService.CreateAsync(website);
+                return RedirectToAction("Details", "Website", new { websiteId = website.Id });
             }
-
             return View();
         }
 
