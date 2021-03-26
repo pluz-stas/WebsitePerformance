@@ -31,7 +31,7 @@ namespace WebsitePerformance.Mvc.Controllers
             website.SlowPagesRatio = new SlowPagesRatio
             {
                 SlowPagesCount =
-                    website.Webpages.Count(x => (x.MaxResponseTime + x.MinResponseTime) / 2 < slowLimit)
+                    website.Webpages.Count(x => (x.MaxResponseTime + x.MinResponseTime) / 2 >= slowLimit)
             };
             website.SlowPagesRatio.FastPagesCount = website.Webpages.Count() - website.SlowPagesRatio.SlowPagesCount;
             return View(website);

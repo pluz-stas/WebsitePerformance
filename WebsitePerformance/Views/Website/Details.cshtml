@@ -5,14 +5,25 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<h1>Details</h1>
+<div class="d-flex justify-content-between">
+<h1>@Html.DisplayFor(model => model.Domain)</h1>
 
-<div>
-    <h4>@Html.DisplayFor(model => model.Domain)</h4>
-    
-    <hr/>
-    <div style="width: 200px; height: 200px">
-        <canvas id="diagram" style="width: 200px; height: 200px"></canvas>
+<form class="form-group" asp-action="Details" asp-route-websiteId="@Model.Id">
+    <input class="input-block" placeholder="Enter slow limit ms" name="slowLimit">
+    <button type="submit" class="btn-light">Submit</button>
+</form>
+</div>
+
+<div class="details">
+    <div>
+        <h2>Total requsts:</h2>
+        <h2 class="text-primary">@Model.Webpages.Count()</h2>
+    </div>
+    <div class="diagram-wrapper">
+        <div class="diagram-percent">
+            @Math.Round((double) Model.SlowPagesRatio.FastPagesCount / (double) Model.Webpages.Count() * 100, 2)%
+        </div>
+        <canvas id="diagram"></canvas>
     </div>
 </div>
 <table class="table">
@@ -55,14 +66,14 @@
 <script>
 window.onload = function(){
     
-let colors = ['#007bff','#28a745','#333333','#c3e6cb','#dc3545','#6c757d'];
+let colors = ['#007bff','#28a745'];
 let donutOptions = {
   cutoutPercentage: 85, 
   legend: {position:'bottom', padding:5, labels: {pointStyle:'circle', usePointStyle:true}}
 };
 
 let diagramData = {
-    labels: ['Slow requests'],
+    labels: ['Slow requests', 'Fast requests'],
     datasets: [
       {
         backgroundColor: colors.slice(0,3),
