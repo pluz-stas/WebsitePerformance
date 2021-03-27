@@ -72,10 +72,10 @@ body {
 .diagram-wrapper{
   height: 200px;
   width: 400px;
+  display: flex;
+  justify-content: center;
 }
 .diagram-percent{
-  position: absolute;
-  width: 400px;
   line-height: 167px;
   font-size: x-large;
   vertical-align: middle;
@@ -89,4 +89,29 @@ body {
 }
 #diagram{
   position: absolute;
+}
+.form-wrapper{
+  display: flex;
+  justify-content: center;
+}
+.error-message {
+  color: #cc0033;
+  display: inline-block;
+  font-size: 12px;
+  line-height: 15px;
+  margin: 5px 0 0;
+}
+.button {
+  transition-duration: 0.4s;
+}
+
+.button:hover {
+  background-color: #005cbf;
+  color: white;
+}
+
+.editor-group{
+  padding: 4px;
+  display: flex;
+  flex-direction: row;
 }
